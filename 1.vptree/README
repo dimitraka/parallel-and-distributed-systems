@@ -1,0 +1,36 @@
+======================================================
+
+		Dimitra  Karatza   8828
+
+======================================================
+
+
+	A) There are two Makefiles in the project:
+
+	
+
+		1) vptree/Makefile
+
+		This Makefile is being used from the tester.
+
+
+
+		2) vptree/src/Makefile
+
+		This Makefile can be used to compile the .c files from the folder src. 
+
+
+
+	
+	B) To achieve a better time with pthreads than the sequential version you have 
+	   to change the variable "maxThreads" from the file vptree_pthreads.c according 
+	   to your processor's characteristics.
+
+	   By default maxThreads = 16, because my PC has the following characteristics: 
+	   Intel® Core™ i7-8550U CPU @ 1.80GHz × 8 
+
+	   So, you have to check if maxThreads should be 2,4,8,16 etc. The value that 
+	   gives you the best time performance is the right one.
+	
+
+	
