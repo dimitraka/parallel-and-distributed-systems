@@ -4,27 +4,27 @@
 
 ======================================================
 
-## Open a Terminal
+Open a Terminal
 
-## Create a folder to work in
+Create a folder to work in
 
 			> mkdir newFolder
 
-## Download code.tar.gz and files tester_helper.h, tester.c and tester_mpi.c. to the folder newFolder
+Download code.tar.gz and files tester_helper.h, tester.c and tester_mpi.c. to the folder newFolder
 
-## Change directory to newFolder
+Change directory to newFolder
 
 			> cd newFolder/
 
-## Untar the the file code.tar.gz
+Untar the the file code.tar.gz
 
 			> tar -xvzf code.tar.gz
 
-## Move file "TesterMakefile" to the Desktop and rename it as "Makefile".
+Move file "TesterMakefile" to the Desktop and rename it as "Makefile".
 
 			> mv knnring/TesterMakefile ./Makefile
 
-## Type one of the following:		
+Type one of the following:		
 			> make test_sequential
 			> make test_synchronous
 			> make test_asynchronous
