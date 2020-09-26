@@ -18,6 +18,9 @@ Queue * createQueue(int maxElements){
   Q = (Queue *)malloc(sizeof(Queue));
   /* Initialise its properties */
   Q->elements = (int *)malloc(sizeof(int)*maxElements);
+  // Intitialize elements of Q
+  for (int i = 0; i < maxElements; i++)
+    Q->elements[i] = -1;
   Q->size = 0;
   Q->capacity = maxElements;
   Q->front = 0;

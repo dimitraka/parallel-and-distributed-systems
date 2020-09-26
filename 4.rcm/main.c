@@ -12,6 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
+
+// global variables for time execution
+struct timeval startwtime, endwtime;
+double p_time;
 
 int *rcm(int *M, int n);
 
@@ -49,19 +54,26 @@ int main(){
   }
 
   // Print created matrix
-  for(int i=0; i<n; i++){
+  /*for(int i=0; i<n; i++){
       for(int j=0; j<n; j++){
         printf("%d ", M[n*i + j]);
       }
       printf("\n");
   }
+  printf("\n");*/
+  gettimeofday (&startwtime, NULL);
 
   int *R = rcm(M, n);
 
+  gettimeofday (&endwtime, NULL);
+  p_time = (double)((endwtime.tv_usec - startwtime.tv_usec)/1.0e6 + endwtime.tv_sec - startwtime.tv_sec);
+  printf("Returned in %fsec\n",p_time);
+
   //Print result
-  for(int i=0; i<n; i++){
+  /*for(int i=0; i<n; i++){
     printf("%d ", R[i]);
   }
+  printf("\n");*/
 
   free(R);
   free(M);
