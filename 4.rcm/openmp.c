@@ -9,12 +9,17 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "rcm.h"
 #include <omp.h>
 #include <string.h>
+#include "rcm.h"
+
+
+#include <time.h>
+#include <sys/time.h>
+struct timeval startwtime, endwtime;
+double p_time;
 
 void swap(int* a, int* b);
-Queue * createQueue(int maxElements);
 void Dequeue(Queue *Q);
 int front(Queue *Q);
 void Enqueue(Queue *Q,int element);
@@ -40,24 +45,34 @@ void fill_Q(int n, int *M, Queue *Q, int *degrees, int element){
 	int *neighbors = malloc(degrees[element] * sizeof(int));
 	int pos = 0;
 
-	#pragma omp parallel num_threads(8)
-	{
-		int *temp_neighbors = malloc(degrees[element] * sizeof(int));
-		int temp_pos = 0;
-		#pragma omp for
+	// Parallelize only if n > 2000
+	if(n>2000){
+		#pragma omp parallel num_threads(8)
+		{
+			int *temp_neighbors = malloc(degrees[element] * sizeof(int));
+			int temp_pos = 0;
+			#pragma omp for
+			for(int i=0;i<n;i++){
+				if(M[n*element+i]==1 && element!=i){
+					temp_neighbors[temp_pos] = i;
+					temp_pos++;
+				}
+			}
+
+			#pragma omp critical
+			{
+				memcpy(neighbors+pos, temp_neighbors, temp_pos * sizeof(int));
+				pos+=temp_pos;
+			}
+			free(temp_neighbors);
+		}
+	}else{
 		for(int i=0;i<n;i++){
 			if(M[n*element+i]==1 && element!=i){
-				temp_neighbors[temp_pos] = i;
-				temp_pos++;
+				neighbors[pos] = i;
+				pos++;
 			}
 		}
-
-		#pragma omp critical
-		{
-			memcpy(neighbors+pos, temp_neighbors, temp_pos * sizeof(int));
-			pos+=temp_pos;
-		}
-		free(temp_neighbors);
 	}
 
 	// Sort the neighbors
@@ -70,36 +85,49 @@ void fill_Q(int n, int *M, Queue *Q, int *degrees, int element){
 	free(neighbors);
 }
 
-int *rcm(int *M, int n){
-  // Instantiate an empty queue Q and empty array for permutation order of the objects R.
-	Queue *Q = createQueue(n*n);
-	Queue *R = createQueue(n);
+int *rcm(int *M, int n, Queue *Q, Queue *R){
 
 	int *degrees = malloc(n * sizeof(int)); //array with the degrees of each element
 	int *is_inserted = malloc(n * sizeof(int)); //binary array indicating if an element is inserted in R
 
-	#pragma omp parallel num_threads(16)
-	{
-
-		// Find the degrees of all elements of M matrix
-		#pragma omp for schedule(dynamic,1)
-		for(int i=0;i<n;i++){
-			int d = 0;
-			for(int j=0;j<n;j++){
-				// Degree is the sum of all elements minus 1 (for the diagonal elements)
-				// of each row because we have matrix with binary elements
-				d = d + M[n*i+j];
+	// Parallelize only if n > 2000
+	if(n>2000){
+		#pragma omp parallel num_threads(16)
+		{
+			// Find the degrees of all elements of M matrix
+			#pragma omp for schedule(dynamic,1)
+			for(int i=0;i<n;i++){
+				int d = 0;
+				for(int j=0;j<n;j++){
+					// Degree is the sum of all elements minus 1 (for the diagonal elements)
+					// of each row because we have matrix with binary elements
+					d = d + M[n*i+j];
+				}
+				degrees[i] = d - 1;
 			}
-			degrees[i] = d - 1;
-		}
 
-
-		// If node i is already inserted to R then is_inserted[i]=0 else is_inserted[i]=1
-		// At first, no elements are inserted to R
-		#pragma omp for schedule(dynamic,1)
-		for(int i=0; i<n; i++)
+			// If node i is already inserted to R then is_inserted[i]=0 else is_inserted[i]=1
+			// At first, no elements are inserted to R
+			#pragma omp for schedule(dynamic,1)
+			for(int i=0; i<n; i++)
 			is_inserted[i] = 0;
+		}
+	}else{
+		// Find the degrees of all elements of M matrix
+	  for(int i=0;i<n;i++){
+	    int d = 0;
+	    for(int j=0;j<n;j++){
+	      // Degree is the sum of all elements minus 1 (for the diagonal elements)
+	      // of each row because we have matrix with binary elements
+	      d = d + M[n*i+j];
+	    }
+	    degrees[i] = d - 1;
+	  }
 
+	  // If node i is already inserted to R then is_inserted[i]=0 else is_inserted[i]=1
+	  // At first, no elements are inserted to R
+	  for(int i=0; i<n; i++)
+			is_inserted[i] = 0;
 	}
 
 	// Repeat until R is full
@@ -134,13 +162,10 @@ int *rcm(int *M, int n){
 
 	}while((R->size) < (R->capacity));
 
+
 	// Reverse the order of the elements in R
-	//#pragma omp parallel for
 	for(int i=0; i<(R->size)/2; i++){
-		//swap(&(R->elements[i]), &(R->elements[n-1-i]));
-		int t = R->elements[i];
-    R->elements[i] = R->elements[n-1-i];
-    R->elements[n-1-i] = t;
+		swap(&(R->elements[i]), &(R->elements[n-1-i]));
 	}
 
 	free(Q);
@@ -150,35 +175,3 @@ int *rcm(int *M, int n){
 	return R->elements;
 
 }
-
-/*
-void quickSort(int arr1[], int arr2[], int low, int high)
-{
-    if (low < high)
-    {
-        /* pi is partitioning index, arr[p] is now
-           at right place
-        int pi = partition(arr1, arr2, low, high);
-
-        // Separately sort elements before
-        // partition and after partition
-        if(high-low>1000){
-          #pragma omp parallel num_threads(8)
-          {
-            #pragma omp single nowait
-            {
-              #pragma omp task
-              quickSort(arr1, arr2, low, pi - 1);
-              #pragma omp task
-              quickSort(arr1, arr2, pi + 1, high);
-            }
-          }
-
-        }else{
-
-          quickSort(arr1, arr2, low, pi - 1);
-          quickSort(arr1, arr2, pi + 1, high);
-        }
-    }
-}
-*/

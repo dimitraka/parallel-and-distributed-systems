@@ -13,12 +13,14 @@
 #include <string.h>
 #include <time.h>
 #include <sys/time.h>
+#include "rcm.h"
 
 // global variables for time execution
 struct timeval startwtime, endwtime;
 double p_time;
 
-int *rcm(int *M, int n);
+Queue * createQueue(int maxElements);
+int *rcm(int *M, int n, Queue *Q, Queue *R);
 
 int main(){
 
@@ -61,9 +63,14 @@ int main(){
       printf("\n");
   }
   printf("\n");*/
+
+  // Instantiate an empty queue Q and empty array for permutation order of the objects R.
+	Queue *Q = createQueue(n*n);
+	Queue *R = createQueue(n);
+
   gettimeofday (&startwtime, NULL);
 
-  int *R = rcm(M, n);
+  int *Result = rcm(M, n, Q, R);
 
   gettimeofday (&endwtime, NULL);
   p_time = (double)((endwtime.tv_usec - startwtime.tv_usec)/1.0e6 + endwtime.tv_sec - startwtime.tv_sec);

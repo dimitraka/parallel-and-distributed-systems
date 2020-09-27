@@ -12,7 +12,6 @@
 #include "rcm.h"
 
 void swap(int* a, int* b);
-Queue * createQueue(int maxElements);
 void Dequeue(Queue *Q);
 int front(Queue *Q);
 void Enqueue(Queue *Q,int element);
@@ -54,10 +53,7 @@ void fill_Q(int n, int *M, Queue *Q, int *degrees, int element){
 	free(neighbors);
 }
 
-int *rcm(int *M, int n){
-  // Instantiate an empty queue Q and empty array for permutation order of the objects R.
-	Queue *Q = createQueue(n*n);
-	Queue *R = createQueue(n);
+int *rcm(int *M, int n, Queue *Q, Queue *R){
 
 	int *degrees = malloc(n * sizeof(int)); //array with the degrees of each element
 	int *is_inserted = malloc(n * sizeof(int)); //binary array indicating if an element is inserted in R
