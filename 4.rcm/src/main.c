@@ -20,11 +20,7 @@
 #define GREEN  "\033[0;32m"
 #define BGREEN  "\033[1;32m"
 #define YELLOW  "\033[0;33m"
-#define CYAN  "\033[1;36m"
-
-
-int width = 8;
-int maxwidth = 12;
+#define BCYAN  "\033[1;36m"
 
 // global variables for time execution
 struct timeval startwtime, endwtime;
@@ -77,10 +73,10 @@ int main(){
   gettimeofday (&endwtime, NULL);
   p_time = (double)((endwtime.tv_usec - startwtime.tv_usec)/1.0e6 + endwtime.tv_sec - startwtime.tv_sec);
 
-
   // Calculate bandwith after the permutation
   int bandwidth_after = find_bandwidth_new(Result,n,M);
 
+  // Print a short description and results
   printf(YELLOW"\nThis code created a random sparse nxn matrix.\n");
   printf("RCM Algorithm was used to reduce bandwidth.\n");
   printf("Results are shown below.\n");
@@ -90,7 +86,7 @@ int main(){
   printf("Density          : %.2lf%c\n",d,'%' );
   printf("Bandwidth before : "RED"%d\n"RESET,bandwidth_before);
   printf("Bandwidth after  : "GREEN"%d\n"RESET,bandwidth_after);
-  printf(CYAN"\nRCM returned in  : %8f sec\n\n"RESET,p_time);
+  printf(BCYAN"\nRCM returned in  : %8f sec\n\n"RESET,p_time);
 
   free(R);
   free(M);
