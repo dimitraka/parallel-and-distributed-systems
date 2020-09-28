@@ -9,7 +9,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "rcm.h"
+#include "../inc/rcm.h"
 
 void swap(int* a, int* b);
 void Dequeue(Queue *Q);

@@ -11,13 +11,7 @@
 #include <stdlib.h>
 #include <omp.h>
 #include <string.h>
-#include "rcm.h"
-
-
-#include <time.h>
-#include <sys/time.h>
-struct timeval startwtime, endwtime;
-double p_time;
+#include "../inc/rcm.h"
 
 void swap(int* a, int* b);
 void Dequeue(Queue *Q);

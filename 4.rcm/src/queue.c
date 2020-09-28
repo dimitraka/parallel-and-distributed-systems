@@ -8,7 +8,7 @@
       \date   2020-09-19
 */
 
-#include "rcm.h"
+#include "../inc/rcm.h"
 #include <stdio.h>
 #include <stdlib.h>
 

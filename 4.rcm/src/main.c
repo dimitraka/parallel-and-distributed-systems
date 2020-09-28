@@ -13,7 +13,7 @@
 #include <string.h>
 #include <time.h>
 #include <sys/time.h>
-#include "rcm.h"
+#include "../inc/rcm.h"
 
 // global variables for time execution
 struct timeval startwtime, endwtime;
@@ -26,13 +26,8 @@ int find_bandwidth_new(int *X, int n,int *M);
 
 int main(){
 
-  int n; //size
-  double d; //density
-
-  printf("Please give the desirable size of matrix: ");
-  scanf("%d", &n);
-  printf("Now give a number between 1 and 100, which will state the percentage of density: ");
-  scanf("%lf", &d);
+  int n=20000; //size
+  double d=0.1; //density
 
   int *M = malloc(n*n * sizeof(int)); //matrix
 
