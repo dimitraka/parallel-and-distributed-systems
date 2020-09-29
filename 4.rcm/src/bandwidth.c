@@ -67,12 +67,12 @@ int find_bandwidth_new(int *permutation, int n, int *X){
   for (int i = 0; i < n; i++)
     changes[permutation[i]] = i;
 
-//! Create the input graph according to input matrix
-Graph *inp_graph = createGraph(n);
-for (int i = 0; i < n; i++)
-    for (int j = i + 1; j < n; j++)
-        if (X[n * i + j])
-            addEdge(inp_graph, i, j);
+	//! Create the input graph according to input matrix
+	Graph *inp_graph = createGraph(n);
+	for (int i = 0; i < n; i++)
+	    for (int j = i + 1; j < n; j++)
+	        if (X[n * i + j])
+	            addEdge(inp_graph, i, j);
 
   //! Create the output graph
   Graph *out_graph = createGraph(n);

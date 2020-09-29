@@ -1,7 +1,4 @@
-## Bandwidth reduction - The Reverse CutHill-McKee Algorithm ###
-### Parallelized using OpenMP ###
-
-![results](https://github.com/dimitraka/parallel-and-distributed-systems/blob/master/4.rcm/plots/graph.png)
+## Bandwidth reduction - The Reverse CutHill-McKee Algorithm - Parallelization using OpenMP
 
 #### The Bandwidth Reduction problem ####
 For a given symmetric sparse matrix, M(nxn), the problem is to reduce its bandwidth B by permuting rows and columns such as to move all the nonzero elements of M in a band as close as possible to the diagonal.
@@ -25,16 +22,20 @@ For a given graph G(n):
 
 The result array will be interpreted like this: R[L] = i means that the new label of node i (the one that had the initial label of i) will be L.
 
-#### Parallelization of RCM####
+#### Parallelization of RCM ####
 
 RCM is an algorithm worth parallelizing due to its multiple and time-consuming calculations for matrices with large dimensions. There were noticed two main parts whose parallelization enhances the execution time of the algorithm.
 
-
+![results](https://github.com/dimitraka/parallel-and-distributed-systems/blob/master/4.rcm/plots/graph.png)
 
 #### How to run ####
+
+Change directory in the folder of the project. Then, type one of the following:
 
 `make`: To compile and execute both sequential and parallel implementations.
 
 `make sequential`: To compile and execute only the sequential implemetation.
 
 `make openmp`: To compile and execute only the parallel implemetation.
+
+![results](https://github.com/dimitraka/parallel-and-distributed-systems/blob/master/4.rcm/plots/execution.png)
