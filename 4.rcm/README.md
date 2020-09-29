@@ -1,7 +1,7 @@
 ## Bandwidth reduction - The Reverse CutHill-McKee Algorithm ###
 ### Parallelized using OpenMP ###
 
-![results](https://github.com/dimitraka/parallel-and-distributed-systems/4.rcm//blob/master/graph.png?raw=true)
+![results](https://github.com/dimitraka/parallel-and-distributed-systems/blob/master/4.rcm/plots/graph.png)
 
 #### The Bandwidth Reduction problem ####
 For a given symmetric sparse matrix, M(nxn), the problem is to reduce its bandwidth B by permuting rows and columns such as to move all the nonzero elements of M in a band as close as possible to the diagonal.
