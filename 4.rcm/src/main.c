@@ -5,7 +5,7 @@
 
       \author Dimitra Karatza
       \AEM    8828
-      \date   2020-09-19
+      \date   2020-09-30
 */
 
 #include <stdio.h>
@@ -25,11 +25,6 @@
 // global variables for time execution
 struct timeval startwtime, endwtime;
 double p_time;
-
-Queue * createQueue(int maxElements);
-int *rcm(int *M, int n, Queue *Q, Queue *R);
-int find_bandwidth(int *X, int n);
-int find_bandwidth_new(int *X, int n,int *M);
 
 int main(){
 

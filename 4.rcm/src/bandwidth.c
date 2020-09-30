@@ -12,21 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int find_bandwidth(int *X, int n);
-
 // Create graph
-typedef struct node
-{
-	int vertex;
-	struct node *next;
-} node;
-
-typedef struct Graph
-{
-	int num_of_vertexes;
-	node **adjacent;
-} Graph;
-
 
 node *createNode(int v){
 	node *newNode = malloc(sizeof(node));

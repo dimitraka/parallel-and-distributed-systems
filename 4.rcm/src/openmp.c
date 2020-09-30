@@ -5,19 +5,13 @@
 
       \author Dimitra Karatza
       \AEM    8828
-      \date   2020-09-19
+      \date   2020-09-30
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
 #include <string.h>
 #include "../inc/rcm.h"
-
-void swap(int* a, int* b);
-void Dequeue(Queue *Q);
-int front(Queue *Q);
-void Enqueue(Queue *Q,int element);
-void quickSort(int arr1[], int arr2[], int low, int high);
 
 int find_min_not_inserted(int size, int *array, int *is_inserted){
 	int minimum = size;
