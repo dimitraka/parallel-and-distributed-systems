@@ -98,7 +98,7 @@ int *rcm(int *M, int n, Queue *Q, Queue *R){
 			// At first, no elements are inserted to R
 			#pragma omp for schedule(dynamic,1)
 			for(int i=0; i<n; i++)
-			is_inserted[i] = 0;
+				is_inserted[i] = 0;
 		}
 	}else{
 		// Find the degrees of all elements of M matrix
