@@ -24,7 +24,7 @@ The result array will be interpreted like this: R[L] = i means that the new labe
 
 #### Parallelization of RCM ####
 
-RCM is an algorithm worth parallelizing due to its multiple and time-consuming calculations for matrices with large dimensions. There were noticed two main parts whose parallelization enhances the execution time of the algorithm.
+RCM is an algorithm worth parallelizing due to its multiple and time-consuming calculations for matrices with large dimensions. There were noticed two main parts whose parallelization enhances the execution time of the algorithm. OpenMP code is 80% faster than the sequential one and 65% faster than MATLAB. Tests were run on an <b> Intel® Core™ i7-8550U CPU @ 1.80GHz × 8 </b> machine.
 
 ![results](https://github.com/dimitraka/parallel-and-distributed-systems/blob/master/4.rcm/plots/graph.png)
 
