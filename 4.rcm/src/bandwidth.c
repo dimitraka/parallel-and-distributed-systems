@@ -68,14 +68,14 @@ int find_bandwidth_new(int *permutation, int n, int *X){
   for (int i = 0; i < n; i++)
     new_labels[permutation[i]] = i;
 
-	//Create the input graph according to input matrix
+	// Create the input graph using the input matrix
 	Graph *input_graph = createGraph(n);
 	for (int i = 0; i < n; i++)
 	    for (int j = i + 1; j < n; j++)
 	        if (X[n * i + j])
 	            addEdge(input_graph, i, j);
 
-  //Create the output graph
+  // Create the output graph using the permutations
   Graph *output_graph = createGraph(n);
   for (int i = 0; i < n; i++){
      struct node *temp = input_graph->adjacent[permutation[i]];
@@ -86,7 +86,7 @@ int find_bandwidth_new(int *permutation, int n, int *X){
      }
   }
 
-  //Create output matrix and initialize it with zeros
+  // Initialize the output matrix with zeros
   for (int i = 0; i < n; i++)
       for (int j = 0; j < n; j++)
           if (i == j)
@@ -94,10 +94,10 @@ int find_bandwidth_new(int *permutation, int n, int *X){
           else
               X[n * i + j] = 0;
 
-  //Build the output matrix according to output graph
+  // Create the output matrix using output graph
   for (int v = 0; v < output_graph->num_of_vertexes; v++){
       struct node *temp = output_graph->adjacent[v];
-      while (temp){
+      while(temp){
           X[n * v + temp->vertex] = 1;
           temp = temp->next;
       }
