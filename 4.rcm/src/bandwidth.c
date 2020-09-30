@@ -14,7 +14,7 @@
 
 int find_bandwidth(int *X, int n);
 
-// Create the new graph from the input array and the permutations
+// Create graph
 typedef struct node
 {
 	int vertex;
@@ -69,19 +69,19 @@ int find_bandwidth_new(int *permutation, int n, int *X){
     new_labels[permutation[i]] = i;
 
 	//Create the input graph according to input matrix
-	Graph *inp_graph = createGraph(n);
+	Graph *input_graph = createGraph(n);
 	for (int i = 0; i < n; i++)
 	    for (int j = i + 1; j < n; j++)
 	        if (X[n * i + j])
-	            addEdge(inp_graph, i, j);
+	            addEdge(input_graph, i, j);
 
   //Create the output graph
-  Graph *out_graph = createGraph(n);
+  Graph *output_graph = createGraph(n);
   for (int i = 0; i < n; i++){
-     struct node *temp = inp_graph->adjacent[permutation[i]];
+     struct node *temp = input_graph->adjacent[permutation[i]];
      while (temp)
      {
-         addEdge(out_graph, i, new_labels[temp->vertex]);
+         addEdge(output_graph, i, new_labels[temp->vertex]);
          temp = temp->next;
      }
   }
@@ -95,8 +95,8 @@ int find_bandwidth_new(int *permutation, int n, int *X){
               X[n * i + j] = 0;
 
   //Build the output matrix according to output graph
-  for (int v = 0; v < out_graph->num_of_vertexes; v++){
-      struct node *temp = out_graph->adjacent[v];
+  for (int v = 0; v < output_graph->num_of_vertexes; v++){
+      struct node *temp = output_graph->adjacent[v];
       while (temp){
           X[n * v + temp->vertex] = 1;
           temp = temp->next;
